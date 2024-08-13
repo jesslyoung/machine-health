@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - INFLUXDB_DB=mydb
+      - DOCKER_INFLUXDB_INIT_USERNAME=myuser
+      - DOCKER_INFLUXDB_INIT_PASSWORD=mypassword
+      - DOCKER_INFLUXDB_INIT_ORG=factory
+      - DOCKER_INFLUXDB_INIT_BUCKET=machines
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUX_TOKEN}
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  influxdb_data:
+  redis-data:
